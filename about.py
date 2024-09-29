@@ -41,7 +41,6 @@ def app():
         Address: Prayagraj, U.P.
     """)
     
-   # st.map()  # Optionally, show a location on the map
 
 if __name__ == "__main__":
     app()

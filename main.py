@@ -99,7 +99,7 @@ def show_sidebar():
             menu_title = f"{st.session_state.username}"
             app = option_menu(
                 menu_title=menu_title,
-                options=['Home', 'Crop disease detection', 'Blogs', 'Contact us', 'About us', 'Chat Community'],
+                options=['Home', 'Crop disease detection','Community Forum', 'Blogs', 'Contact us', 'About us' ],
                 icons=['house-fill', 'activity', 'book-fill', 'envelope-fill', 'info-circle-fill', 'chat-fill'],
                 menu_icon='chat-text-fill',
                 styles={
@@ -119,33 +119,33 @@ def run():
             home.app()
         elif app == "Crop disease detection":
             diseased.app()
+        elif app == "Community Forum":
+            chat.app()
         elif app == "Blogs":
             blogs.app()
         elif app == 'About us':
             about.app()
         elif app == "Contact us":
             contact.app()
-        elif app == "Chat Community":
-            chat.app()
+        
     else:
         home.app()
 
 run()
 
-st.components.v1.html("""  
-    <div id="watson-chat">
+st.components.v1.html("""
+    <div id="watson-chat"></div>
     <script>
-      window.watsonAssistantChatOptions = {
-        integrationID: "24febfc9-96d9-4da4-b53e-994b51cf73cf", // The ID of this integration.
-        region: "au-syd", // The region your integration is hosted in.
-        serviceInstanceID: "cc911430-552d-4ec6-a045-1960496264db", // The ID of your service instance.
-        onLoad: async (instance) => { await instance.render(); }
-      };
-      setTimeout(function(){
-        const t=document.createElement('script');
-        t.src="https://web-chat.global.assistant.watson.appdomain.cloud/versions/" + (window.watsonAssistantChatOptions.clientVersion || 'latest') + "/WatsonAssistantChatEntry.js";
-        document.head.appendChild(t);
-      });
+        window.watsonAssistantChatOptions = {
+            integrationID: "24febfc9-96d9-4da4-b53e-994b51cf73cf", // The ID of this integration.
+            region: "au-syd", // The region your integration is hosted in.
+            serviceInstanceID: "cc911430-552d-4ec6-a045-1960496264db", // The ID of your service instance.
+            onLoad: async (instance) => { await instance.render(); }
+        };
+        setTimeout(function(){
+            const t=document.createElement('script');
+            t.src="https://web-chat.global.assistant.watson.appdomain.cloud/versions/" + (window.watsonAssistantChatOptions.clientVersion || 'latest') + "/WatsonAssistantChatEntry.js";
+            document.head.appendChild(t);
+        });
     </script>
-    </div>
 """, height=500)

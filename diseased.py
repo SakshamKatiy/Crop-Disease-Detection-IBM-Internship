@@ -245,7 +245,11 @@ def segment_image(image):
     return segmented_image, None
 
 def reset_state():
-    st.session_state.clear()
+    st.session_state.current_image = st.session_state.original_image
+    st.session_state.show_enhanced = False
+    st.session_state.show_segmented = False
+    st.session_state.enhanced_image = None
+    st.session_state.segmented_image = None
 
 def exit_app():
     st.session_state.page = 'home'

@@ -5,16 +5,14 @@ from io import BytesIO
 from datetime import datetime, timedelta
 import base64
 
-# Connect to MySQL database
 def get_db_connection():
     return mysql.connector.connect(
         host='localhost',
         user='root',
-        password='',  # Your MySQL password
+        password='', 
         database='sasyam'
     )
 
-# Initialize chat messages from the database
 def load_messages():
     conn = get_db_connection()
     cursor = conn.cursor(dictionary=True)
@@ -23,14 +21,12 @@ def load_messages():
     conn.close()
     return messages
 
-# Add a new message to the database
 def add_message(user, text, image):
     conn = get_db_connection()
     cursor = conn.cursor()
     
     try:
         if image:
-            # Convert image to binary
             buffered = BytesIO()
             image.save(buffered, format="PNG")
             img_binary = buffered.getvalue()
@@ -57,11 +53,9 @@ def format_timestamp(timestamp):
 def app():
     st.title("Chat Community")
 
-    # Display chat history
     
     messages = load_messages()
 
-    # Container to hold chat messages
     chat_container = st.container()
     
     with chat_container:
@@ -69,7 +63,6 @@ def app():
         for message in messages:
             message_date = message["timestamp"].date()
             if message_date != last_date:
-                # Print the date header if the date has changed
                 st.markdown(f"**_{message_date.strftime('%d/%m/%Y')}_**", unsafe_allow_html=True)
                 last_date = message_date
 
@@ -77,7 +70,6 @@ def app():
             user_info = f"{message['user']} {timestamp}"
             
             if message["user"] == st.session_state.username:
-                # Display logged-in user's messages with minimized space between username and message, and more space between messages
                 st.markdown(
                     f"""
                     <div style="display: flex; flex-direction: column; align-items: flex-start; margin-bottom: 20px;">  <!-- Added margin-bottom for space between messages -->
@@ -91,7 +83,6 @@ def app():
                     unsafe_allow_html=True
                 )
             else:
-                # Display others' messages with minimized space between username and message, and more space between messages
                 st.markdown(
                     f"""
                     <div style="display: flex; flex-direction: column; align-items: flex-end; margin-bottom: 20px;">  <!-- Added margin-bottom for space between messages -->
@@ -105,15 +96,12 @@ def app():
                     unsafe_allow_html=True
                 )
 
-    # Input form for sending messages
     st.subheader("Send a Message")
 
-    # Upload image icon
     uploaded_image = st.file_uploader("Choose an image", type=["png", "jpg", "jpeg"], key='uploaded_image')
 
     text = st.text_area("Enter your message:", key='message_input')
 
-    # Send button
     def send_message(uploaded_image, text):
         if uploaded_image:
             image = Image.open(uploaded_image)
@@ -122,14 +110,11 @@ def app():
 
         if text.strip() or image:
             add_message(st.session_state.username, text, image)
-            # Clear the uploaded image by resetting the file uploader widget
         else:
             st.warning("Please enter a message or upload an image.")
 
-    # Lambda function for the button
     st.button("Send", on_click=lambda: send_message(uploaded_image, text))
 
-    # Automatically delete messages older than three days
     def delete_old_messages():
         conn = get_db_connection()
         cursor = conn.cursor()
@@ -139,6 +124,5 @@ def app():
 
     delete_old_messages()
 
-# Run the app
 if __name__ == "__main__":
     app()

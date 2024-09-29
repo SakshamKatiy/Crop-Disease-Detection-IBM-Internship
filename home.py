@@ -2,22 +2,16 @@ import streamlit as st
 import tensorflow as tf
 import os
 
-# Set environment variable to suppress oneDNN warnings
 os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0'
 
-# Ensure compatibility with TensorFlow warnings
 def reset_tensorflow_graph():
     if tf.__version__.startswith('2.'):
-        # TensorFlow 2.x
         tf.compat.v1.reset_default_graph()
     else:
-        # TensorFlow 1.x
         tf.reset_default_graph()
 
-# Call this function at the beginning of your app if you use TensorFlow
 reset_tensorflow_graph()
 
-# Initialize session state if not already set
 if 'username' not in st.session_state:
     st.session_state.username = None  
     st.session_state.user_type = None  

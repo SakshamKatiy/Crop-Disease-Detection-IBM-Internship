@@ -6,7 +6,6 @@ def app():
 
     st.write("Soil is formed by the weathering of the rocks into small fragments. The parent rock is exposed to the atmosphere during the physical and chemical decomposition process and breaks down to form soil.")
 
-# Create the table type of soil on base of particle of soil
     st.subheader("Types of Soil Base on Particle of Soil")
     st.markdown("""
 <style>
